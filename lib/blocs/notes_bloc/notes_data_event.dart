@@ -1,14 +1,13 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-part of 'tasks_bloc.dart';
+part of 'notes_data_bloc.dart';
 
-abstract class TasksEvent extends Equatable {
-  const TasksEvent();
+abstract class NotesDataEvent extends Equatable {
+  const NotesDataEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class AddTask extends TasksEvent {
+class AddTask extends NotesDataEvent {
   final Task task;
   const AddTask({
     required this.task,
@@ -17,7 +16,7 @@ class AddTask extends TasksEvent {
   List<Object> get props => [task];
 }
 
-class UpdateTask extends TasksEvent {
+class UpdateTask extends NotesDataEvent {
   final Task task;
   const UpdateTask({
     required this.task,
@@ -26,7 +25,18 @@ class UpdateTask extends TasksEvent {
   List<Object> get props => [task];
 }
 
-class DeleteTask extends TasksEvent {
+class EditTask extends NotesDataEvent {
+  final Task task;
+  final Task oldtask;
+  const EditTask({
+    required this.task,
+    required this.oldtask,
+  });
+  @override
+  List<Object> get props => [task, oldtask];
+}
+
+class DeleteTask extends NotesDataEvent {
   final Task task;
   const DeleteTask({
     required this.task,
@@ -35,7 +45,7 @@ class DeleteTask extends TasksEvent {
   List<Object> get props => [task];
 }
 
-class RemovedTask extends TasksEvent {
+class RemovedTask extends NotesDataEvent {
   final Task task;
   const RemovedTask({
     required this.task,
@@ -44,7 +54,7 @@ class RemovedTask extends TasksEvent {
   List<Object> get props => [task];
 }
 
-class RestoreTask extends TasksEvent {
+class RestoreTask extends NotesDataEvent {
   final Task task;
   const RestoreTask({
     required this.task,

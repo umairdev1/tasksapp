@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:tasksapp/blocs/bloc_exports.dart';
+
 import 'package:tasksapp/blocs/dark_mode_bloc/dark_mode_bloc.dart';
+
 import 'package:tasksapp/models/tasks.dart';
+import 'package:tasksapp/screens/main_screen/main_screen.dart';
+import 'package:tasksapp/screens/notes_screen/widgets/detail_screen.dart';
 import 'package:tasksapp/utilities/colors.dart';
 
 class TaskTile extends StatelessWidget {
@@ -23,17 +29,26 @@ class TaskTile extends StatelessWidget {
       builder: (context, darkstate) {
         return Dismissible(
           background: Container(
-            decoration: const BoxDecoration(
-                color: Colors.redAccent,
+            decoration: BoxDecoration(
+                // color: Colors.red.withOpacity(0.1),
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(35),
-                  bottomRight: Radius.circular(20),
-                  bottomLeft: Radius.circular(20),
-                )),
-            child: const Icon(
-              Icons.delete,
-              color: Colors.white,
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(35),
+              bottomRight: Radius.circular(20),
+              bottomLeft: Radius.circular(20),
+            )),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                ),
+                const Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                ),
+              ],
             ),
           ),
           key: ValueKey(task),
@@ -66,21 +81,28 @@ class TaskTile extends StatelessWidget {
                               task.isDone! ? TextDecoration.lineThrough : null),
                     ),
                   ),
-                  Checkbox(
-                    value: task.isDone,
-                    activeColor:
-                        darkstate.switchValue ? kwhiteColor : kprimaryColor,
-                    shape: CircleBorder(),
-                    checkColor:
-                        darkstate.switchValue ? kprimaryColor : kwhiteColor,
-                    onChanged: task.isDeleted == false
-                        ? (value) {
+                  task.isDeleted == false
+                      ? Checkbox(
+                          value: task.isDone,
+                          activeColor: darkstate.switchValue
+                              ? kwhiteColor
+                              : kprimaryColor,
+                          shape: CircleBorder(),
+                          checkColor: darkstate.switchValue
+                              ? kprimaryColor
+                              : kwhiteColor,
+                          onChanged: (value) {
                             context
                                 .read<TasksBloc>()
                                 .add(UpdateTask(task: task));
-                          }
-                        : null,
-                  ),
+                          })
+                      : IconButton(
+                          onPressed: () {
+                            context
+                                .read<TasksBloc>()
+                                .add(RestoreTask(task: task));
+                          },
+                          icon: Icon(Icons.refresh)),
                 ],
               ),
             ),

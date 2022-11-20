@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tasksapp/services/guid_gen.dart';
+import 'package:tasksapp/utilities/colors.dart';
 
-import '../blocs/bloc_exports.dart';
-import '../models/tasks.dart';
+import '../../../blocs/bloc_exports.dart';
+import '../../../models/tasks.dart';
 
 class AddTaskScreen extends StatelessWidget {
   const AddTaskScreen({
@@ -30,7 +31,11 @@ class AddTaskScreen extends StatelessWidget {
             controller: title,
             autofocus: true,
             onFieldSubmitted: (value) {
-              var task = Task(title: title.text, id: GUIDGen.generate());
+              var task = Task(
+                title: title.text,
+                id: GUIDGen.generate(),
+                date: DateTime.now().toString(),
+              );
 
               context.read<TasksBloc>().add(AddTask(task: task));
               Navigator.pop(context);
@@ -46,12 +51,19 @@ class AddTaskScreen extends StatelessWidget {
                   child: const Text("Cancel")),
               ElevatedButton(
                   onPressed: () {
-                    var task = Task(title: title.text, id: GUIDGen.generate());
+                    var task = Task(
+                      title: title.text,
+                      id: GUIDGen.generate(),
+                      date: DateTime.now().toString(),
+                    );
 
                     context.read<TasksBloc>().add(AddTask(task: task));
                     Navigator.pop(context);
                   },
-                  child: const Text("Add"))
+                  child: const Text(
+                    "Add",
+                    style: TextStyle(color: kwhiteColor),
+                  ))
             ],
           )
         ],

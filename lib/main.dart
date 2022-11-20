@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:tasksapp/blocs/dark_mode_bloc/dark_mode_bloc.dart';
-import 'package:tasksapp/screens/splash_screen.dart';
+import 'package:tasksapp/blocs/navcount_bloc/navi_count_bloc.dart';
+import 'package:tasksapp/screens/main_screen/main_screen.dart';
+import 'package:tasksapp/screens/splash/splash_screen.dart';
 
-import 'package:tasksapp/screens/tasks_screen.dart';
+import 'package:tasksapp/screens/todo_allscreens/tasks_screen.dart';
 import 'package:tasksapp/services/app_routes.dart';
 import 'package:tasksapp/services/app_theme.dart';
 import 'package:tasksapp/utilities/colors.dart';
 
 import 'blocs/bloc_exports.dart';
+import 'blocs/notes_bloc/notes_data_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,13 +39,17 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => DarkModeBloc(),
         ),
+        BlocProvider(
+          create: (context) => NaviCountBloc(),
+        ),
+        BlocProvider(
+          create: (context) => NotesDataBloc(),
+        ),
       ],
       child: BlocBuilder<DarkModeBloc, DarkModeState>(
         builder: (context, state) {
           SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-            // systemNavigationBarColor:
-            //     state.switchValue ? Color.fromARGB(31, 28, 26, 26) : kbgColor,
-            statusBarColor: state.switchValue ? kprimaryColor : kbgColor,
+            statusBarColor: state.switchValue ? kprimaryColor : kwhiteColor,
             statusBarBrightness:
                 state.switchValue ? Brightness.light : Brightness.dark,
             statusBarIconBrightness:
@@ -55,6 +63,7 @@ class MyApp extends StatelessWidget {
                 : AppThemes.appThemeData[AppTheme.lightTheme],
             initialRoute: SplashScreen.id,
             onGenerateRoute: appRouter.onGenerateRoute,
+            builder: EasyLoading.init(),
           );
         },
       ),

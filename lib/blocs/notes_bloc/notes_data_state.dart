@@ -1,10 +1,10 @@
-part of 'tasks_bloc.dart';
+part of 'notes_data_bloc.dart';
 
-class TasksState extends Equatable {
+class NotesDataState extends Equatable {
   final List<Task> pendingTasks;
   final List<Task> completedTasks;
   final List<Task> removedTasks;
-  const TasksState({
+  const NotesDataState({
     this.pendingTasks = const <Task>[],
     this.completedTasks = const <Task>[],
     this.removedTasks = const <Task>[],
@@ -21,8 +21,8 @@ class TasksState extends Equatable {
     };
   }
 
-  factory TasksState.fromMap(Map<String, dynamic> map) {
-    return TasksState(
+  factory NotesDataState.fromMap(Map<String, dynamic> map) {
+    return NotesDataState(
       pendingTasks: List<Task>.from(
         (map['pendingTasks']?.map((x) => Task.fromMap(x))),
       ),

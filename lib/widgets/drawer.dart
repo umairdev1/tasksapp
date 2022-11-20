@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tasksapp/blocs/dark_mode_bloc/dark_mode_bloc.dart';
-import 'package:tasksapp/screens/recyle_bin.dart';
-import 'package:tasksapp/screens/tasks_screen.dart';
+import 'package:tasksapp/screens/main_screen/main_screen.dart';
+import 'package:tasksapp/screens/recyclebin/recyle_bin.dart';
+import 'package:tasksapp/screens/todo_allscreens/tasks_screen.dart';
 import 'package:tasksapp/utilities/colors.dart';
 import 'package:tasksapp/utilities/constants.dart';
 
@@ -31,37 +32,27 @@ class CustomDrawer extends StatelessWidget {
           Expanded(
               child: ListView(
             children: [
-              BlocBuilder<TasksBloc, TasksState>(
-                builder: (context, state) {
-                  return ListTile(
-                    onTap: () {
-                      Navigator.pushReplacementNamed(context, TasksScreen.id);
-                    },
-                    horizontalTitleGap: 0.0,
-                    leading: const Icon(Icons.note_add_rounded),
-                    title: const Text(
-                      "All Notes",
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    trailing: Text(state.allTasks.length.toString()),
-                  );
+              ListTile(
+                onTap: () {
+                  Navigator.pushReplacementNamed(context, MainScreen.id);
                 },
+                horizontalTitleGap: 0.0,
+                leading: const Icon(Icons.note_add_rounded),
+                title: const Text(
+                  "All Notes",
+                  style: TextStyle(fontSize: 16),
+                ),
               ),
-              BlocBuilder<TasksBloc, TasksState>(
-                builder: (context, state) {
-                  return ListTile(
-                    onTap: () {
-                      Navigator.pushReplacementNamed(context, RecycleBin.id);
-                    },
-                    horizontalTitleGap: 0.0,
-                    leading: const Icon(Icons.recycling),
-                    title: const Text(
-                      "Recycle Bin",
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    trailing: Text(state.removedTasks.length.toString()),
-                  );
+              ListTile(
+                onTap: () {
+                  Navigator.pushReplacementNamed(context, RecycleBin.id);
                 },
+                horizontalTitleGap: 0.0,
+                leading: const Icon(Icons.recycling),
+                title: const Text(
+                  "Recycle Bin",
+                  style: TextStyle(fontSize: 16),
+                ),
               ),
               BlocBuilder<DarkModeBloc, DarkModeState>(
                 builder: (context, state) {
@@ -71,11 +62,12 @@ class CustomDrawer extends StatelessWidget {
                         ? Icons.dark_mode_rounded
                         : Icons.light_mode_rounded),
                     title: Text(
-                      state.switchValue ? "Dark Mode" : "Light Mode",
+                      "Dark Mode",
                       style: TextStyle(fontSize: 16),
                     ),
                     trailing: Switch(
                         value: state.switchValue,
+                        activeColor: kprimaryColor,
                         onChanged: (val) {
                           val
                               ? context
